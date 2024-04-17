@@ -1,0 +1,54 @@
+#!/bin/bash
+
+# Check if a data structure name was provided
+if [ -z "$1" ]; then
+    echo "Usage: $0 <DataStructureName>"
+    exit 1
+fi
+
+# Data structure name
+DS_NAME=$1
+
+# Directory names for each programming language
+declare -a LANGUAGES=("php" "java" "javascript" "typescript" "go" "csharp")
+
+# Base directory path
+BASE_DIR="./src/$DS_NAME"
+
+# Function to create directory and file
+create_dir_and_file() {
+    local lang_dir="$BASE_DIR/$1"
+    local file_name="$2"
+
+    # Create directory if it does not exist
+    mkdir -p "$lang_dir"
+
+    # Create an empty file
+    touch "$lang_dir/$file_name"
+}
+
+# Create folders and files for each language
+for lang in "${LANGUAGES[@]}"; do
+    case $lang in
+        "php")
+            create_dir_and_file $lang "$DS_NAME.php"
+            ;;
+        "java")
+            create_dir_and_file $lang "${DS_NAME^}.java" # Capitalize the first letter
+            ;;
+        "javascript")
+            create_dir_and_file $lang "${DS_NAME,,}.js" # Convert to lowercase
+            ;;
+        "typescript")
+            create_dir_and_file $lang "${DS_NAME,,}.ts" # Convert to lowercase
+            ;;
+        "go")
+            create_dir_and_file $lang "${DS_NAME,,}.go" # Convert to lowercase
+            ;;
+        "csharp")
+            create_dir_and_file $lang "${DS_NAME^}.cs" # Capitalize the first letter
+            ;;
+    esac
+done
+
+echo "Directories and files for $DS_NAME have been created."
